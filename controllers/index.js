@@ -29,3 +29,20 @@ exports.signup = async (req, res, next) => {
     }
 
 }
+
+exports.login = async (req, res, next) => {
+    const { email, password } = req.body;
+    const user = await User.findOne(email, password);
+
+    try {
+        if (user) {
+            res.redirect('/members');
+        } else {
+            res.redirect('/');
+        }        
+    } catch(err) {
+        console.log(err);
+        res.redirect('/');
+    }
+
+}

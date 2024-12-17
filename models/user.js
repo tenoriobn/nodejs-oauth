@@ -12,6 +12,13 @@ class User {
 
     return db.collection('users').insertOne(this)
   }
+
+  static async findOne(email, password) {
+    const db = getDb();
+    const user = await db.collection('users').findOne({email: email, password: password});
+
+    return user;
+  }
 }
 
 module.exports = User;
