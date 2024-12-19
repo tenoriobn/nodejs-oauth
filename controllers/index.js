@@ -49,3 +49,13 @@ exports.login = async (req, res, next) => {
     }
 
 }
+
+exports.checkAuth = async (req, res, next) => {
+    const auth = false;
+
+    if (auth) {
+        next();
+    } else {
+        res.redirect('/');
+    }
+}
