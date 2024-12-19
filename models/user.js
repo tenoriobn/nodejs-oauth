@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt')
 const getDb = require('../util/database').getDb;
 
 class User {
@@ -15,9 +16,21 @@ class User {
 
   static async findOne(email, password) {
     const db = getDb();
-    const user = await db.collection('users').findOne({email: email, password: password});
+    const user = await db.collection('users').findOne({email: email});
 
-    return user;
+    if (!user) {
+      return null
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    console.log('passwordMatch: ', passwordMatch)
+
+    if (passwordMatch) {
+      return user;
+    } else {
+      return null
+    }
   }
 }
 
