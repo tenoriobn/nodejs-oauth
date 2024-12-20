@@ -39,6 +39,7 @@ exports.login = async (req, res, next) => {
 
     try {
         if (user) {
+            req.session.user = user;
             res.redirect('/members');
         } else {
             res.redirect('/');
@@ -51,11 +52,19 @@ exports.login = async (req, res, next) => {
 }
 
 exports.checkAuth = async (req, res, next) => {
-    const auth = false;
-
-    if (auth) {
+    if (req.session && req.session.user) {
         next();
     } else {
         res.redirect('/');
     }
+}
+
+exports.logout = async (req, res, next) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.log('erro: ', err)
+        } else {
+            res.redirect('/');
+        }
+    })
 }
