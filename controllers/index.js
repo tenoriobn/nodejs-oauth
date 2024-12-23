@@ -52,7 +52,7 @@ exports.login = async (req, res, next) => {
 }
 
 exports.checkAuth = async (req, res, next) => {
-    if (req.session && req.session.user) {
+    if (req.session && req.session.user || req.isAuthenticated()) {
         next();
     } else {
         res.redirect('/');
